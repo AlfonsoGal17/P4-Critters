@@ -75,6 +75,20 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+	try {
+		Class<?> myClass =	Class.forName(critter_class_name); //returns class associated with string name
+		Critter newCritter = (Critter)myClass.newInstance();
+		newCritter.x_coord = getRandomInt(Params.world_width);
+		newCritter.y_coord = getRandomInt(Params.world_height);
+		newCritter.energy = Params.start_energy;
+		population.add(newCritter);
+	}
+	catch (ClassNotFoundException e){
+		throw new InvalidCritterException(critter_class_name);
+	}
+	catch (Exception e){
+		throw new InvalidCritterException(critter_class_name);
+	}
 	}
 	
 	/**
