@@ -70,11 +70,46 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
-       
-        System.out.println("GLHF");
+        // some critters to world
+        for(int i =0; i <= 3; i++){
+            try{
+            	Critter.makeCritter(myPackage + "." + "Algae");
+            }
+            catch(Exception e){
+            	e.printStackTrace();
+            	System.out.println("no class named Algae");
+            }
+            }
+        for(int i =0; i <= 3; i++){
+            try{
+            	Critter.makeCritter(myPackage + "." + "Algae");
+            }
+            catch(Exception e){
+            	e.printStackTrace();
+            	System.out.println("no class named Algae");
+            }
+            }
+        while(true){
+        System.out.print("critters>");
+        String command = kb.nextLine();
+        command = command.trim();
         
+        if(command.equals("quit")){
+        	return;
+        }
+        if(command.equals("show")){
+        	Critter.displayWorld();
+        	System.out.println("");
+        }
+        if(command.equals("step")){
+        	Critter.worldTimeStep();
+        }
+       
+        }
+        //System.out.println("GLHF");
+       
         /* Write your code above */
-        System.out.flush();
+        //System.out.flush();
 
     }
 }

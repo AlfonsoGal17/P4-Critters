@@ -303,5 +303,5 @@ public abstract class Critter {
 		}
 		System.out.print("+");
 	}
-	}
+	
 }
