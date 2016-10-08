@@ -273,35 +273,43 @@ public abstract class Critter {
 		for(int z = 0; z< Params.world_width; z++){
 			System.out.print("-");
 		}
-		System.out.println("+");
-		
-		
+			System.out.println("+");
+				
+				
 		//Prints side borders 
 		int heightCounter = 0;
-		for(int y = 0; y< Params.world_width; y++){
+		for(int y = 0; y< Params.world_width+2; y++){
 			if(heightCounter<Params.world_height){
 				if (y == 0){
-					System.out.print("|");
-				}
-				else if (y == Params.world_width - 1){
-					System.out.print(" ");
-					System.out.print(" ");
+				System.out.print("|");
+			}
+				else if (y == Params.world_width + 1){
 					System.out.println("|");
 					y = -1;
 					heightCounter++;
 				}
+				//print Critters
 				else{
-					System.out.print(" ");
+					boolean critterHere = false;
+					for(int counter = 0; counter<population.size(); counter++){
+						if(population.get(counter).x_coord == y-1 && population.get(counter).y_coord == heightCounter){
+							System.out.print(population.get(counter));
+							critterHere = true;
+						}
+					}
+					if(!critterHere){
+						System.out.print(" ");
+					}
 				}
 			}
 		}
-		
+				
 		//Prints bottom border
 		System.out.print("+");
 		for(int z = 0; z< Params.world_width; z++){
 			System.out.print("-");
 		}
-		System.out.print("+");
-	}
+			System.out.print("+");
+		}
 	
 }
