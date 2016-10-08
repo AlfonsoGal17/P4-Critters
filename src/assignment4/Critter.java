@@ -60,49 +60,56 @@ public abstract class Critter {
 
 	protected final void walk(int direction) {
 		this.energy -= Params.walk_energy_cost;
-		switch(direction) {//0,1,2,3,4,5,6,7
-		case 0:	//right
+		switch (direction) {// 0,1,2,3,4,5,6,7
+		case 0: // right
 			this.x_coord += 1;
 			this.y_coord += 0;
-		case 1: //right - up
+			break;
+		case 1: // right - up
 			this.x_coord += 1;
 			this.y_coord -= 1;
-		case 2: //up
+			break;
+		case 2: // up
 			this.x_coord += 0;
 			this.y_coord += 1;
-		case 3: //left - up
+			break;
+		case 3: // left - up
 			this.x_coord -= 1;
 			this.y_coord -= 1;
-		case 4: //left
+			break;
+		case 4: // left
 			this.x_coord -= 1;
 			this.y_coord += 0;
-		case 5: //left - down
+			break;
+		case 5: // left - down
 			this.x_coord -= 1;
 			this.y_coord += 1;
+			break;
 		case 6: // down
 			this.x_coord += 0;
 			this.y_coord += 1;
-		case 7: //right - down
+			break;
+		case 7: // right - down
 			this.x_coord += 1;
 			this.y_coord += 1;
+			break;
 		}
-		//cases for overshooting (wrap around)
-		//x overshoots
-		if(this.x_coord > Params.world_width-1){
+		// cases for overshooting (wrap around)
+		// x overshoots
+		if (this.x_coord > Params.world_width - 1) {
 			this.x_coord -= Params.world_width;
-		}//x undershoots
-		else if(this.x_coord < 0){
+		} // x undershoots
+		else if (this.x_coord < 0) {
 			this.x_coord += Params.world_height;
 		}
-		//y overshoots
-		if(this.y_coord > Params.world_height -1){
+		// y overshoots
+		if (this.y_coord > Params.world_height - 1) {
 			this.y_coord -= Params.world_height;
-		}//y undershoots
-		else if(this.y_coord < 0){
+		} // y undershoots
+		else if (this.y_coord < 0) {
 			this.y_coord += Params.world_height;
 		}
-		
-		
+
 	}
 
 	protected final void run(int direction) {
@@ -248,72 +255,135 @@ public abstract class Critter {
 	}
 
 	public static void worldTimeStep() {
-		// remove dead bugs
-		java.util.ArrayList<Critter> deadCrit = new java.util.ArrayList<Critter>();
+
+		// FIRST do doTimeStep on each bug
+		for (Critter a : population) {
+			a.doTimeStep();
+		}
+		// SECOND resolve position conflicts
+		for (Critter a : population) { // check all critters for conflicts
+			for (Critter b : population) {
+				if (a == b) { /// skip when a and b are the same bug
+					continue;
+				}
+				// critters are in same point
+				if (a.x_coord == b.x_coord && a.y_coord == b.y_coord) {
+					// only if they're still alive after thier timeStep
+					if (a.energy > 0 && b.energy > 0) {
+						boolean aFight = a.fight(b.toString());// check whether
+																// they want to
+																// fight
+						boolean bFight = b.fight(a.toString());
+						int aRoll;
+						int bRoll;
+						// if = then failed to escape
+						if (a.x_coord == b.x_coord && a.y_coord == b.y_coord) {
+							// if both critters are still alive
+							if (a.energy > 0 && b.energy > 0) {
+								if (aFight) {
+									aRoll = Critter.getRandomInt(a.energy);
+								} else {
+									aRoll = 0;
+								}
+								if (bFight) {
+									bRoll = Critter.getRandomInt(b.energy);
+								} else {
+									bRoll = 0;
+								}
+								if (aRoll > bRoll) { // a wins!!
+									a.energy += b.energy / 2;
+									b.energy = 0; // makes sure b will not fight
+													// again
+								} else if (bRoll > aRoll) {// b wins!
+									b.energy += a.energy / 2;
+									a.energy = 0; // makes sure a will not fight
+													// again
+								} else {// roll same number A wins!
+									a.energy += b.energy / 2;
+									b.energy = 0;
+								}
+
+							}
+						}
+
+					}
+				}
+			}
+		}
+
+		// THIRD apply rest energy cost
 		for (Critter a : population) {
 			a.energy -= Params.rest_energy_cost;
+		}
+		// FOURTH remove dead bugs
+		java.util.ArrayList<Critter> deadCrit = new java.util.ArrayList<Critter>();
+		for (Critter a : population) {
 			if (a.energy <= 0) {
 				deadCrit.add(a); // collects dead bugs
 			}
 		}
 		population.removeAll(deadCrit);
+		// FIFTH put children with population
+		population.addAll(babies);
+		babies.clear();
 
-		// do doTimeStep on each bug
-		for (Critter a : population) {
-			a.doTimeStep();
+		// SIXTH generate Algae(food source)
+		for (int i = 0; i < Params.refresh_algae_count; i++) {
+			try {
+				Critter.makeCritter(myPackage + ".Algae");
+			} catch (InvalidCritterException e) {
+				e.printStackTrace();
+			}
 		}
-		// resolve position conflicts
-		//STAGE2 method
-
 	}
 
 	public static void displayWorld() {
-		//Prints top border
+		// Prints top border
 		System.out.print("+");
-		for(int z = 0; z< Params.world_width; z++){
+		for (int z = 0; z < Params.world_width; z++) {
 			System.out.print("-");
 		}
-			System.out.println("+");		
-				
-		//Prints side borders 
+		System.out.println("+");
+
+		// Prints side borders
 		int heightCounter = 0;
-		for(int y = 0; y< Params.world_width+2; y++){
-			if(heightCounter<Params.world_height){
-				if (y == 0){
-				System.out.print("|");
-			}
-				else if (y == Params.world_width + 1){
+		for (int y = 0; y < Params.world_width + 2; y++) {
+			if (heightCounter < Params.world_height) {
+				if (y == 0) {
+					System.out.print("|");
+				} else if (y == Params.world_width + 1) {
 					System.out.println("|");
 					y = -1;
 					heightCounter++;
 				}
-				//print Critters
-				else{
-					
+				// print Critters
+				else {
+
 					boolean critterHere = false;
 					boolean printedCritter = false;
-					for(int counter = 0; counter<population.size(); counter++){
-						if(population.get(counter).x_coord == y-1 && population.get(counter).y_coord == heightCounter){
-							if(!printedCritter){
+					for (int counter = 0; counter < population.size(); counter++) {
+						if (population.get(counter).x_coord == y - 1
+								&& population.get(counter).y_coord == heightCounter) {
+							if (!printedCritter) {
 								System.out.print(population.get(counter));
 								critterHere = true;
 								printedCritter = true;
 							}
 						}
 					}
-					if(!critterHere){
+					if (!critterHere) {
 						System.out.print(" ");
 					}
 				}
 			}
 		}
-				
-		//Prints bottom border
+
+		// Prints bottom border
 		System.out.print("+");
-		for(int z = 0; z< Params.world_width; z++){
+		for (int z = 0; z < Params.world_width; z++) {
 			System.out.print("-");
 		}
-			System.out.print("+");
-		}
-	
+		System.out.print("+");
+	}
+
 }

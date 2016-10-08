@@ -71,7 +71,7 @@ public class Main {
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
         // some critters to world
-        for(int i =0; i <= 3; i++){
+        for(int i =0; i < 10; i++){
             try{
             	Critter.makeCritter(myPackage + "." + "Algae");
             }
@@ -80,9 +80,9 @@ public class Main {
             	System.out.println("no class named Algae");
             }
             }
-        for(int i =0; i <= 3; i++){
+        for(int i =0; i < 50; i++){
             try{
-            	Critter.makeCritter(myPackage + "." + "Algae");
+            	Critter.makeCritter(myPackage + "." + "Craig");
             }
             catch(Exception e){
             	e.printStackTrace();
@@ -92,18 +92,41 @@ public class Main {
         while(true){
         System.out.print("critters>");
         String command = kb.nextLine();
-        command = command.trim();
+        String trimedCmd = command.trim();
+        String[] cmdArr;
+        cmdArr = trimedCmd.split("[ ]+");
         
-        if(command.equals("quit")){
+        
+        if(cmdArr[0].equals("quit")){
         	return;
         }
-        if(command.equals("show")){
+        else if(cmdArr[0].equals("show")){
         	Critter.displayWorld();
         	System.out.println("");
         }
-        if(command.equals("step")){
-        	Critter.worldTimeStep();
+        else if(cmdArr[0].equals("step")){
+        	if(cmdArr.length > 2){
+        		System.out.println("error processing: "+ trimedCmd);
+        	}
+        	if(cmdArr.length ==1){
+        		Critter.worldTimeStep();
+        	}
+        	else{
+        		try{
+        		int stepNum = Integer.parseInt(cmdArr[1]);
+        		while(stepNum > 0){
+        			Critter.worldTimeStep();
+        			stepNum--;
+        		}}
+        		catch(Exception e){
+        			System.out.println("error processing: "+ trimedCmd);
+        		}
+        	}
         }
+        else{
+        	System.out.println("invalid command: "+ trimedCmd);
+        }
+        
        
         }
         //System.out.println("GLHF");
