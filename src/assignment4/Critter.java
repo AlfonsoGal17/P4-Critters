@@ -87,7 +87,20 @@ public abstract class Critter {
 			this.y_coord += 1;
 		}
 		//cases for overshooting (wrap around)
-		//x steps 
+		//x overshoots
+		if(this.x_coord > Params.world_width-1){
+			this.x_coord -= Params.world_width;
+		}//x undershoots
+		else if(this.x_coord < 0){
+			this.x_coord += Params.world_height;
+		}
+		//y overshoots
+		if(this.y_coord > Params.world_height -1){
+			this.y_coord -= Params.world_height;
+		}//y undershoots
+		else if(this.y_coord < 0){
+			this.y_coord += Params.world_height;
+		}
 		
 		
 	}
