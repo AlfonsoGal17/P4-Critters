@@ -268,5 +268,40 @@ public abstract class Critter {
 	}
 
 	public static void displayWorld() {
+		//Prints top border
+		System.out.print("+");
+		for(int z = 0; z< Params.world_width; z++){
+			System.out.print("-");
+		}
+		System.out.println("+");
+		
+		
+		//Prints side borders 
+		int heightCounter = 0;
+		for(int y = 0; y< Params.world_width; y++){
+			if(heightCounter<Params.world_height){
+				if (y == 0){
+					System.out.print("|");
+				}
+				else if (y == Params.world_width - 1){
+					System.out.print(" ");
+					System.out.print(" ");
+					System.out.println("|");
+					y = -1;
+					heightCounter++;
+				}
+				else{
+					System.out.print(" ");
+				}
+			}
+		}
+		
+		//Prints bottom border
+		System.out.print("+");
+		for(int z = 0; z< Params.world_width; z++){
+			System.out.print("-");
+		}
+		System.out.print("+");
+	}
 	}
 }
