@@ -273,8 +273,7 @@ public abstract class Critter {
 		for(int z = 0; z< Params.world_width; z++){
 			System.out.print("-");
 		}
-			System.out.println("+");
-				
+			System.out.println("+");		
 				
 		//Prints side borders 
 		int heightCounter = 0;
@@ -290,11 +289,16 @@ public abstract class Critter {
 				}
 				//print Critters
 				else{
+					
 					boolean critterHere = false;
+					boolean printedCritter = false;
 					for(int counter = 0; counter<population.size(); counter++){
 						if(population.get(counter).x_coord == y-1 && population.get(counter).y_coord == heightCounter){
-							System.out.print(population.get(counter));
-							critterHere = true;
+							if(!printedCritter){
+								System.out.print(population.get(counter));
+								critterHere = true;
+								printedCritter = true;
+							}
 						}
 					}
 					if(!critterHere){
