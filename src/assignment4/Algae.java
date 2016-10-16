@@ -4,9 +4,9 @@
  * Alfonso Galindo
  * ag49477
  * 16450
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * <Nicole Muzquiz>
+ * <ngm339>
+ * <16460>
  * Slip days used: <0>
  * Fall 2016
  */
@@ -26,5 +26,15 @@ public class Algae extends TestCritter {
 	
 	public void doTimeStep() {
 		setEnergy(getEnergy() + Params.photosynthesis_energy_amount);
+		
+		//spawning more algae
+		for (int x = 0; x<Params.refresh_algae_count; x++){
+			try {
+				Critter.makeCritter("assignment4.Algae");
+			} catch (InvalidCritterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
