@@ -4,9 +4,9 @@
  * Alfonso Galindo
  * ag49477
  * 16450
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * <Nicole Muzquiz>
+ * <ngm339>
+ * <16460>
  * Slip days used: <0>
  * Fall 2016
  */
@@ -113,10 +113,70 @@ public abstract class Critter {
 	}
 
 	protected final void run(int direction) {
-
+		this.energy -= Params.run_energy_cost;
+		switch (direction) {// 0,1,2,3,4,5,6,7
+		case 0: // right
+			this.x_coord += 2;
+			this.y_coord += 0;
+			break;
+		case 1: // right - up
+			this.x_coord += 2;
+			this.y_coord -= 2;
+			break;
+		case 2: // up
+			this.x_coord += 0;
+			this.y_coord += 2;
+			break;
+		case 3: // left - up
+			this.x_coord -= 2;
+			this.y_coord -= 2;
+			break;
+		case 4: // left
+			this.x_coord -= 2;
+			this.y_coord += 0;
+			break;
+		case 5: // left - down
+			this.x_coord -= 2;
+			this.y_coord += 2;
+			break;
+		case 6: // down
+			this.x_coord += 0;
+			this.y_coord += 2;
+			break;
+		case 7: // right - down
+			this.x_coord += 2;
+			this.y_coord += 2;
+			break;
+		}
+		// cases for overshooting (wrap around)
+		// x overshoots
+		if (this.x_coord > Params.world_width - 1) {
+			this.x_coord -= Params.world_width;
+		} // x undershoots
+		else if (this.x_coord < 0) {
+			this.x_coord += Params.world_height;
+		}
+		// y overshoots
+		if (this.y_coord > Params.world_height - 1) {
+			this.y_coord -= Params.world_height;
+		} // y undershoots
+		else if (this.y_coord < 0) {
+			this.y_coord += Params.world_height;
+		}
 	}
 
 	protected final void reproduce(Critter offspring, int direction) {
+		if(this.energy < Params.min_reproduce_energy ){
+			return;
+		}
+		else{
+			offspring.energy = (int) Math.floor(this.energy / 2);
+			this.energy = (int) Math.ceil(this.energy / 2);
+			offspring.x_coord = this.x_coord;
+			offspring.y_coord = this.y_coord;
+			offspring.energy += Params.walk_energy_cost;
+			offspring.walk(direction);
+		}
 	}
 
 	public abstract void doTimeStep();
