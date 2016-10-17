@@ -26,15 +26,5 @@ public class Algae extends TestCritter {
 	
 	public void doTimeStep() {
 		setEnergy(getEnergy() + Params.photosynthesis_energy_amount);
-		
-		//spawning more algae
-		for (int x = 0; x<Params.refresh_algae_count; x++){
-			try {
-				Critter.makeCritter("assignment4.Algae");
-			} catch (InvalidCritterException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 }
