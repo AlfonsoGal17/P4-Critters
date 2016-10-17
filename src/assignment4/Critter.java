@@ -148,7 +148,11 @@ public abstract class Critter {
 			population.add(newCritter);
 		} catch (ClassNotFoundException e) {
 			throw new InvalidCritterException(critter_class_name);
-		} catch (Exception e) {
+		} 
+		catch(NoClassDefFoundError e){
+			throw new InvalidCritterException(critter_class_name);
+		}
+		catch (Exception e) {
 			throw new InvalidCritterException(critter_class_name);
 		}
 	}

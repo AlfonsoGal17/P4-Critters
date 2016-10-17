@@ -195,7 +195,7 @@ public class Main {
 					System.out.println("error processing: " + trimedCmd);
 				}
 				else {
-					
+					//finish writing stats 
 				}
 				
 			}
