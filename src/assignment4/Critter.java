@@ -176,6 +176,7 @@ public abstract class Critter {
 			offspring.y_coord = this.y_coord;
 			offspring.energy += Params.walk_energy_cost;
 			offspring.walk(direction);
+			babies.add(offspring);
 		}
 	}
 
