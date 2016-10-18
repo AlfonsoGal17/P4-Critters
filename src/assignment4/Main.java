@@ -13,6 +13,7 @@
 
 package assignment4; // cannot be in default package
 
+import java.util.List;
 import java.util.Scanner;
 import java.io.*;
 
@@ -79,22 +80,7 @@ public class Main {
 		/* Do not alter the code above for your submission. */
 		/* Write your code below. */
 		// some critters to world
-		for (int i = 0; i < 10; i++) {
-			try {
-				Critter.makeCritter(myPackage + "." + "Algae");
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("no class named Algae");
-			}
-		}
-		for (int i = 0; i < 50; i++) {
-			try {
-				Critter.makeCritter(myPackage + "." + "Craig");
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("no class named Algae");
-			}
-		}
+
 		while (true) {
 			System.out.print("critters>");
 			String command = kb.nextLine();
@@ -167,39 +153,49 @@ public class Main {
 					System.out.println("error processing: " + trimedCmd);
 				} else if (cmdArr.length == 2) {
 					try {
-						Critter.makeCritter(myPackage + "." +cmdArr[1]);
+						Critter.makeCritter(myPackage + "." + cmdArr[1]);
 					} catch (InvalidCritterException e) {
 						System.out.println("error processing: " + trimedCmd);
 					}
-				}
-				else{
+				} else {
 					int makeNum;
-				//	String className = cmdArr[1];
-					try{
+					// String className = cmdArr[1];
+					try {
 						makeNum = Integer.parseInt(cmdArr[2]);
-						for(int i=0; i<makeNum;i++){
-							Critter.makeCritter(myPackage + "." +cmdArr[1]);
+						for (int i = 0; i < makeNum; i++) {
+							Critter.makeCritter(myPackage + "." + cmdArr[1]);
 						}
-					}
-					catch(InvalidCritterException e ){
+					} catch (InvalidCritterException e) {
 						System.out.println("error processing: " + trimedCmd);
-						//break;
-					}
-					catch(Exception e){
-						System.out.println("error processing: "+ trimedCmd);
+						// break;
+					} catch (Exception e) {
+						System.out.println("error processing: " + trimedCmd);
 					}
 				}
 
-			} else if(cmdArr[0].equals("stats")){
+			} 
+			/////////
+			///////// STATS
+			/////////
+			else if (cmdArr[0].equals("stats")) {
 				if (cmdArr.length > 2 || cmdArr.length < 2) {
 					System.out.println("error processing: " + trimedCmd);
+				} else {
+					// finish writing stats
+					List<Critter> result = new java.util.ArrayList<Critter>();
+					try {
+						Class<?> myClass = Class.forName(myPackage + "." + cmdArr[1]);
+						Critter myCritter = (Critter) myClass.newInstance();
+						result = Critter.getInstances(myPackage + "." + cmdArr[1]);
+						Critter.runStats(result);
+					} catch (InvalidCritterException e) {
+						System.out.println("error processing: " + trimedCmd);
+					} catch (Exception e) {
+						System.out.println("error processing: " + trimedCmd);
+					}
 				}
-				else {
-					//finish writing stats 
-				}
-				
-			}
-			else {
+
+			} else {
 				System.out.println("invalid command: " + trimedCmd);
 			}
 

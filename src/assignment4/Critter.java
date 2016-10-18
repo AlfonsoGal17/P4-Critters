@@ -228,7 +228,24 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
-
+		try{
+		Class<?> critClass = Class.forName(critter_class_name);
+		for(Critter a : population){
+			if(critClass.isInstance(a)){
+				result.add(a);
+			}
+		}
+		}
+		catch(ClassNotFoundException e){
+			throw new InvalidCritterException(critter_class_name);
+		}
+		catch(NoClassDefFoundError e){
+			throw new InvalidCritterException(critter_class_name);
+		}
+		catch(Exception e){
+			throw new InvalidCritterException(critter_class_name);
+		}
+		
 		return result;
 	}
 
