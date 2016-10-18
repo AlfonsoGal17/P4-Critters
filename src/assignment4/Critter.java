@@ -57,43 +57,52 @@ public abstract class Critter {
 
 	private int x_coord;
 	private int y_coord;
-
+	//added boolean to check if it has walked/run in a timestep
+	private boolean moved;
+	//added boolean to check if critter tried to flee in fight method
+	protected boolean flee = false;
 	protected final void walk(int direction) {
-		this.energy -= Params.walk_energy_cost;
-		switch (direction) {// 0,1,2,3,4,5,6,7
-		case 0: // right
-			this.x_coord += 1;
-			this.y_coord += 0;
-			break;
-		case 1: // right - up
-			this.x_coord += 1;
-			this.y_coord -= 1;
-			break;
-		case 2: // up
-			this.x_coord += 0;
-			this.y_coord += 1;
-			break;
-		case 3: // left - up
-			this.x_coord -= 1;
-			this.y_coord -= 1;
-			break;
-		case 4: // left
-			this.x_coord -= 1;
-			this.y_coord += 0;
-			break;
-		case 5: // left - down
-			this.x_coord -= 1;
-			this.y_coord += 1;
-			break;
-		case 6: // down
-			this.x_coord += 0;
-			this.y_coord += 1;
-			break;
-		case 7: // right - down
-			this.x_coord += 1;
-			this.y_coord += 1;
-			break;
+		if(this.moved){
+			this.energy -= Params.walk_energy_cost;
 		}
+		else if (!this.moved){
+			this.energy -= Params.walk_energy_cost;
+			switch (direction) {// 0,1,2,3,4,5,6,7
+			case 0: // right
+				this.x_coord += 1;
+				this.y_coord += 0;
+				break;
+			case 1: // right - up
+				this.x_coord += 1;
+				this.y_coord -= 1;
+				break;
+			case 2: // up
+				this.x_coord += 0;
+				this.y_coord += 1;
+				break;
+			case 3: // left - up
+				this.x_coord -= 1;
+				this.y_coord -= 1;
+				break;
+			case 4: // left
+				this.x_coord -= 1;
+				this.y_coord += 0;
+				break;
+			case 5: // left - down
+				this.x_coord -= 1;
+				this.y_coord += 1;
+				break;
+			case 6: // down
+				this.x_coord += 0;
+				this.y_coord += 1;
+				break;
+			case 7: // right - down
+				this.x_coord += 1;
+				this.y_coord += 1;
+				break;
+			}
+		}
+		this.moved = true;
 		// cases for overshooting (wrap around)
 		// x overshoots
 		if (this.x_coord > Params.world_width - 1) {
@@ -113,41 +122,47 @@ public abstract class Critter {
 	}
 
 	protected final void run(int direction) {
-		this.energy -= Params.run_energy_cost;
-		switch (direction) {// 0,1,2,3,4,5,6,7
-		case 0: // right
-			this.x_coord += 2;
-			this.y_coord += 0;
-			break;
-		case 1: // right - up
-			this.x_coord += 2;
-			this.y_coord -= 2;
-			break;
-		case 2: // up
-			this.x_coord += 0;
-			this.y_coord += 2;
-			break;
-		case 3: // left - up
-			this.x_coord -= 2;
-			this.y_coord -= 2;
-			break;
-		case 4: // left
-			this.x_coord -= 2;
-			this.y_coord += 0;
-			break;
-		case 5: // left - down
-			this.x_coord -= 2;
-			this.y_coord += 2;
-			break;
-		case 6: // down
-			this.x_coord += 0;
-			this.y_coord += 2;
-			break;
-		case 7: // right - down
-			this.x_coord += 2;
-			this.y_coord += 2;
-			break;
+		if(this.moved){
+			this.energy -= Params.run_energy_cost;
 		}
+		else if (!this.moved){
+			this.energy -= Params.run_energy_cost;
+			switch (direction) {// 0,1,2,3,4,5,6,7
+			case 0: // right
+				this.x_coord += 2;
+				this.y_coord += 0;
+				break;
+			case 1: // right - up
+				this.x_coord += 2;
+				this.y_coord -= 2;
+				break;
+			case 2: // up
+				this.x_coord += 0;
+				this.y_coord += 2;
+				break;
+			case 3: // left - up
+				this.x_coord -= 2;
+				this.y_coord -= 2;
+				break;
+			case 4: // left
+				this.x_coord -= 2;
+				this.y_coord += 0;
+				break;
+			case 5: // left - down
+				this.x_coord -= 2;
+				this.y_coord += 2;
+				break;
+			case 6: // down
+				this.x_coord += 0;
+				this.y_coord += 2;
+				break;
+			case 7: // right - down
+				this.x_coord += 2;
+				this.y_coord += 2;
+				break;
+			}
+		}
+		this.moved = true;
 		// cases for overshooting (wrap around)
 		// x overshoots
 		if (this.x_coord > Params.world_width - 1) {
@@ -205,6 +220,8 @@ public abstract class Critter {
 			newCritter.x_coord = getRandomInt(Params.world_width);
 			newCritter.y_coord = getRandomInt(Params.world_height);
 			newCritter.energy = Params.start_energy;
+			//added parameter for checking if walked or ran in a timeStep
+			newCritter.moved = false;
 			// add critter to world
 			population.add(newCritter);
 		} catch (ClassNotFoundException e) {
@@ -352,14 +369,62 @@ public abstract class Critter {
 				if (a.x_coord == b.x_coord && a.y_coord == b.y_coord) {
 					// only if they're still alive after thier timeStep
 					if (a.energy > 0 && b.energy > 0) {
+						
+						
+						//int values used to set back critter to original position if flee fails
+						int prevA_XCoord = a.x_coord;
+						int prevA_YCoord = a.y_coord;
+						int prevB_XCoord = b.x_coord;
+						int prevB_YCoord = b.y_coord;
+						
+	
 						boolean aFight = a.fight(b.toString());// check whether
 																// they want to
 																// fight
 						boolean bFight = b.fight(a.toString());
 						int aRoll;
 						int bRoll;
+						
+						//trying to escape
+						if ( a.flee == true){
+							int x = a.x_coord;
+							int y = a.y_coord;
+							for(Critter z: population){
+								if (a == z){
+									continue;
+								}
+								else if (x == z.x_coord && y == z.y_coord){
+									a.flee = false;
+									a.x_coord = prevA_XCoord;
+									a.y_coord = prevA_YCoord;
+								}
+							}
+						}
+						if (b.flee == true){
+							int x = b.x_coord;
+							int y = b.y_coord;
+							for(Critter z: population){
+								if (b == z){
+									continue;
+								}
+								else if (x == z.x_coord && y == z.y_coord){
+									b.flee = false;
+									b.x_coord = prevB_XCoord;
+									b.y_coord = prevB_YCoord;
+								}
+							}
+						}
+						
+						
+						//both Critters Flee and end up on same spot
+						if ((a.flee && b.flee) && (a.x_coord == b.x_coord) && (a.y_coord == b.y_coord)){
+							b.x_coord = prevB_XCoord;
+							b.y_coord = prevB_YCoord;
+						}
+						
+						
 						// if = then failed to escape
-						if (a.x_coord == b.x_coord && a.y_coord == b.y_coord) {
+						if ((!(a.flee) && !(b.flee))&&(a.x_coord == b.x_coord && a.y_coord == b.y_coord)) {
 							// if both critters are still alive
 							if (a.energy > 0 && b.energy > 0) {
 								if (aFight) {
@@ -416,6 +481,10 @@ public abstract class Critter {
 			} catch (InvalidCritterException e) {
 				e.printStackTrace();
 			}
+		}
+		//Reset Moved boolean for all Critters
+		for(Critter x: population){
+			x.moved = false;
 		}
 	}
 
