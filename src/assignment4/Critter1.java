@@ -1,4 +1,25 @@
+/* CRITTERS 
+ * EE422C Project 4 submission by
+ * Replace <...> with your actual data.
+ * Alfonso Galindo
+ * ag49477
+ * 16450
+ * Nicole Muzquiz
+ * ngm339
+ * 16460
+ * Slip days used: <0>
+ * Fall 2016
+ */
+
+
 package assignment4;
+/**
+ * 
+ * @author Nicole
+ * This Critter is a derp
+ * Never moves unless confronted in a fight. Will always try to flee and fight is a last resort when energy is too low to walk.
+ * In a peaceful timeStep, just reproduces if it has energy>100. Babies ALWAYS spawn in Dir 0, 1, or 2 (1 block away from parent) 
+ */
 
 public class Critter1 extends Critter {
 
