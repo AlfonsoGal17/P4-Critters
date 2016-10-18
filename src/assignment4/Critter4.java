@@ -1,3 +1,15 @@
+/* CRITTERS 
+ * EE422C Project 4 submission by
+ * Replace <...> with your actual data.
+ * Alfonso Galindo
+ * ag49477
+ * 16450
+ * Nicole Muzquiz
+ * ngm339
+ * 16460
+ * Slip days used: <0>
+ * Fall 2016
+ */
 package assignment4;
 //This critter always walks in the UP position,
 //if and only if its energy is the same of that
