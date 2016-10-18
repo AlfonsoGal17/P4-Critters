@@ -173,7 +173,7 @@ public class Main {
 					}
 				}
 
-			} 
+			}
 			/////////
 			///////// STATS
 			/////////
@@ -199,11 +199,11 @@ public class Main {
 				System.out.println("invalid command: " + trimedCmd);
 			}
 
+			// System.out.println("GLHF");
+
+			/* Write your code above */
+			System.out.flush();
+
 		}
-		// System.out.println("GLHF");
-
-		/* Write your code above */
-		// System.out.flush();
-
 	}
 }
