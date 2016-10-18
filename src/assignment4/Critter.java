@@ -44,13 +44,13 @@ public abstract class Critter {
 
 	private int x_coord;
 	private int y_coord;
-	//added boolean to check if it has walked/run in a timestep
+	// added boolean to check if it has walked/run in a timestep
 	private boolean moved;
+
 	protected final void walk(int direction) {
-		if(this.moved){
+		if (this.moved) {
 			this.energy -= Params.walk_energy_cost;
-		}
-		else if (!this.moved){
+		} else if (!this.moved) {
 			this.energy -= Params.walk_energy_cost;
 			switch (direction) {// 0,1,2,3,4,5,6,7
 			case 0: // right
@@ -107,10 +107,9 @@ public abstract class Critter {
 	}
 
 	protected final void run(int direction) {
-		if(this.moved){
+		if (this.moved) {
 			this.energy -= Params.run_energy_cost;
-		}
-		else if (!this.moved){
+		} else if (!this.moved) {
 			this.energy -= Params.run_energy_cost;
 			switch (direction) {// 0,1,2,3,4,5,6,7
 			case 0: // right
@@ -166,10 +165,9 @@ public abstract class Critter {
 	}
 
 	protected final void reproduce(Critter offspring, int direction) {
-		if(this.energy < Params.min_reproduce_energy ){
+		if (this.energy < Params.min_reproduce_energy) {
 			return;
-		}
-		else{
+		} else {
 			offspring.energy = (int) Math.floor(this.energy / 2);
 			this.energy = (int) Math.ceil(this.energy / 2);
 			offspring.x_coord = this.x_coord;
@@ -205,17 +203,15 @@ public abstract class Critter {
 			newCritter.x_coord = getRandomInt(Params.world_width);
 			newCritter.y_coord = getRandomInt(Params.world_height);
 			newCritter.energy = Params.start_energy;
-			//added parameter for checking if walked or ran in a timeStep
+			// added parameter for checking if walked or ran in a timeStep
 			newCritter.moved = false;
 			// add critter to world
 			population.add(newCritter);
 		} catch (ClassNotFoundException e) {
 			throw new InvalidCritterException(critter_class_name);
-		} 
-		catch(NoClassDefFoundError e){
+		} catch (NoClassDefFoundError e) {
 			throw new InvalidCritterException(critter_class_name);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new InvalidCritterException(critter_class_name);
 		}
 	}
@@ -230,7 +226,20 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
-
+		try {
+			Class<?> critClass = Class.forName(critter_class_name);
+			for (Critter a : population) {
+				if (critClass.isInstance(a)) {
+					result.add(a);
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			throw new InvalidCritterException(critter_class_name);
+		} catch (NoClassDefFoundError e) {
+			throw new InvalidCritterException(critter_class_name);
+		} catch (Exception e) {
+			throw new InvalidCritterException(critter_class_name);
+		}
 		return result;
 	}
 
@@ -337,62 +346,57 @@ public abstract class Critter {
 				if (a.x_coord == b.x_coord && a.y_coord == b.y_coord) {
 					// only if they're still alive after thier timeStep
 					if (a.energy > 0 && b.energy > 0) {
-						
-						
-						//int values used to set back critter to original position if flee fails
+
+						// int values used to set back critter to original
+						// position if flee fails
 						int prevA_XCoord = a.x_coord;
 						int prevA_YCoord = a.y_coord;
 						int prevB_XCoord = b.x_coord;
 						int prevB_YCoord = b.y_coord;
-						
-	
+
 						boolean aFight = a.fight(b.toString());// check whether
 																// they want to
 																// fight
 						boolean bFight = b.fight(a.toString());
 						int aRoll;
 						int bRoll;
-						
-						//trying to escape
-						if (!(aFight)){
+
+						// trying to escape
+						if (!(aFight)) {
 							int x = a.x_coord;
 							int y = a.y_coord;
-							for(Critter z: population){
-								if (a == z){
+							for (Critter z : population) {
+								if (a == z) {
 									continue;
-								}
-								else if (x == z.x_coord && y == z.y_coord){
+								} else if (x == z.x_coord && y == z.y_coord) {
 									aFight = true;
 									a.x_coord = prevA_XCoord;
 									a.y_coord = prevA_YCoord;
 								}
 							}
 						}
-						if (!(bFight)){
+						if (!(bFight)) {
 							int x = b.x_coord;
 							int y = b.y_coord;
-							for(Critter z: population){
-								if (b == z){
+							for (Critter z : population) {
+								if (b == z) {
 									continue;
-								}
-								else if (x == z.x_coord && y == z.y_coord){
+								} else if (x == z.x_coord && y == z.y_coord) {
 									bFight = true;
 									b.x_coord = prevB_XCoord;
 									b.y_coord = prevB_YCoord;
 								}
 							}
 						}
-						
-						
-						//both Critters Flee and end up on same spot
-						if ((!aFight && !bFight) && (a.x_coord == b.x_coord) && (a.y_coord == b.y_coord)){
+
+						// both Critters Flee and end up on same spot
+						if ((!aFight && !bFight) && (a.x_coord == b.x_coord) && (a.y_coord == b.y_coord)) {
 							b.x_coord = prevB_XCoord;
 							b.y_coord = prevB_YCoord;
 						}
-						
-						
+
 						// if = then failed to escape
-						if ((aFight && bFight)&&(a.x_coord == b.x_coord && a.y_coord == b.y_coord)) {
+						if ((aFight && bFight) && (a.x_coord == b.x_coord && a.y_coord == b.y_coord)) {
 							// if both critters are still alive
 							if (a.energy > 0 && b.energy > 0) {
 								if (aFight) {
@@ -450,8 +454,8 @@ public abstract class Critter {
 				e.printStackTrace();
 			}
 		}
-		//Reset Moved boolean for all Critters
-		for(Critter x: population){
+		// Reset Moved boolean for all Critters
+		for (Critter x : population) {
 			x.moved = false;
 		}
 	}

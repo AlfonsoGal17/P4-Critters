@@ -95,7 +95,7 @@ public class Main {
 					System.out.println("error processing: " + trimedCmd);
 				} else {
 					kb.close();
-					return;
+					break;
 				}
 			}
 			/////////
@@ -200,10 +200,10 @@ public class Main {
 			}
 
 			// System.out.println("GLHF");
-
+		}
 			/* Write your code above */
 			System.out.flush();
 
-		}
+		
 	}
 }
