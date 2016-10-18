@@ -10,6 +10,10 @@
  * Slip days used: <0>
  * Fall 2016
  */
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf48cce0b7d720f2bd684d3c8282e6c643e36d60
 package assignment4;
 //This critter always walks in the UP position,
 //if and only if its energy is the same of that
