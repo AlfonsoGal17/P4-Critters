@@ -1,5 +1,9 @@
 package assignment4;
 /*
+ * @author Alfonso Galindo
+ * 
+ */
+/*
  * This critter will always take a walk in a
  * random direction. Then it will make a baby
  * This critter is not afraid of others, it has

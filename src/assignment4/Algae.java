@@ -1,17 +1,3 @@
-/* CRITTERS
- * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * Alfonso Galindo
- * ag49477
- * 16450
- * <Nicole Muzquiz>
- * <ngm339>
- * <16460>
- * Slip days used: <0>
- * Fall 2016
- */
-
-
 package assignment4;
 /*
  * Do not change this file.
