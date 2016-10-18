@@ -1,3 +1,15 @@
+/* CRITTERS 
+ * EE422C Project 4 submission by
+ * Replace <...> with your actual data.
+ * Alfonso Galindo
+ * ag49477
+ * 16450
+ * Nicole Muzquiz
+ * ngm339
+ * 16460
+ * Slip days used: <0>
+ * Fall 2016
+ */
 package assignment4;
 
 import java.util.List;
@@ -46,7 +58,15 @@ public abstract class Critter {
 	private int y_coord;
 	// added boolean to check if it has walked/run in a timestep
 	private boolean moved;
-
+	
+	/**
+	 * Removes the energy cost to walk from calling Critter's energy, whether it can move or not
+	 * If Critter has already moved in the current timeStep, only the penalty listed above is applied and nothing else happens
+	 * Else if the Critter has not moved yet, then the penalty is applied AND the Critter moves in given direction. Moved flag is changed to true after
+	 * Bottom of the method handles wrap around, so Critter is displayed correctly by DisplayWorld()
+	 *   
+	 * @param direction
+	 */
 	protected final void walk(int direction) {
 		if (this.moved) {
 			this.energy -= Params.walk_energy_cost;
@@ -105,7 +125,15 @@ public abstract class Critter {
 		}
 
 	}
-
+	
+	/**
+	 * Removes the energy cost to run from calling Critter's energy, whether it can move or not
+	 * If Critter has already moved in the current timeStep, only the penalty listed above is applied and nothing else happens
+	 * Else if the Critter has not moved yet, then the penalty is applied AND the Critter moves in given direction. Moved flag is changed to true after
+	 * Bottom of the method handles wrap around, so Critter is displayed correctly by DisplayWorld()
+	 *   
+	 * @param direction
+	 */
 	protected final void run(int direction) {
 		if (this.moved) {
 			this.energy -= Params.run_energy_cost;
@@ -329,7 +357,14 @@ public abstract class Critter {
 	 */
 	public static void clearWorld() {
 	}
-
+	
+	/**
+	 * 
+	 * Flee:
+	 * 	-Critters that choose not to fight and flee instead, go through the flee process within the SECOND part
+	 * 	-Before fight is called, the current Critters position is saved, and is used to reset Critter back to this position if it flees into an occupied space
+	 * 	-If 2 Critters in combat choose to flee and flee into the same empty space, then 'CritterA' will stay there and 'CritterB' is sent back to former spot
+	 */
 	public static void worldTimeStep() {
 
 		// FIRST do doTimeStep on each bug
@@ -459,7 +494,11 @@ public abstract class Critter {
 			x.moved = false;
 		}
 	}
-
+	
+	/**
+	 * Prints border and Critters. 
+	 * If 2 or more Critters are in the same spot, only the first one put there will visibly show up with the 'show' command. 
+	 */
 	public static void displayWorld() {
 		// Prints top border
 		System.out.print("+");
