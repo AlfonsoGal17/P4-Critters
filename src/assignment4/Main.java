@@ -16,6 +16,7 @@ package assignment4; // cannot be in default package
 import java.util.List;
 import java.util.Scanner;
 import java.io.*;
+import java.lang.reflect.Method;
 
 /*
  * Usage: java <pkgname>.Main <input file> test
@@ -184,10 +185,18 @@ public class Main {
 					// finish writing stats
 					List<Critter> result = new java.util.ArrayList<Critter>();
 					try {
-						Class<?> myClass = Class.forName(myPackage + "." + cmdArr[1]);
-						Critter myCritter = (Critter) myClass.newInstance();
-						result = Critter.getInstances(myPackage + "." + cmdArr[1]);
-						Critter.runStats(result);
+//						Class<?> myClass = Class.forName(myPackage + "." + cmdArr[1]);
+//						Critter myCritter = (Critter) myClass.newInstance();
+//						result = Critter.getInstances(myPackage + "." + cmdArr[1]);
+//						//Critter.runStats(result);
+//						myCritter.runStats(result);
+						Class<?> myClass = Class.forName(myPackage+ "." + cmdArr[1]);
+						//Critter myCritter = (Critter) myClass.newInstance();
+						result = Critter.getInstances(myPackage+"."+cmdArr[1]);
+						Class<?>[] types = {List.class};
+						Method m = myClass.getMethod("runStats", types);
+						m.invoke(null, result);
+						
 					} catch (InvalidCritterException e) {
 						System.out.println("error processing: " + trimedCmd);
 					} catch (Exception e) {

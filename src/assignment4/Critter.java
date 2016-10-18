@@ -369,7 +369,7 @@ public abstract class Critter {
 								if (a == z) {
 									continue;
 								} else if (x == z.x_coord && y == z.y_coord) {
-									aFight = true;
+		
 									a.x_coord = prevA_XCoord;
 									a.y_coord = prevA_YCoord;
 								}
@@ -382,7 +382,7 @@ public abstract class Critter {
 								if (b == z) {
 									continue;
 								} else if (x == z.x_coord && y == z.y_coord) {
-									bFight = true;
+							
 									b.x_coord = prevB_XCoord;
 									b.y_coord = prevB_YCoord;
 								}
@@ -396,7 +396,7 @@ public abstract class Critter {
 						}
 
 						// if = then failed to escape
-						if ((aFight && bFight) && (a.x_coord == b.x_coord && a.y_coord == b.y_coord)) {
+						if ((a.x_coord == b.x_coord && a.y_coord == b.y_coord)) {
 							// if both critters are still alive
 							if (a.energy > 0 && b.energy > 0) {
 								if (aFight) {
