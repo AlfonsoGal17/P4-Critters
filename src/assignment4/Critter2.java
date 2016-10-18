@@ -29,8 +29,9 @@ public class Critter2 extends Critter {
 	@Override
 	public boolean fight(String oponent) {
 		if(getEnergy()<= 100 && getEnergy() > Params.walk_energy_cost ){
-			walk(Critter.getRandomInt(5));
-			return true;
+			int dir = Critter.getRandomInt(5); 
+			walk(dir);
+			return false;
 		}
 		else{
 			return true;
