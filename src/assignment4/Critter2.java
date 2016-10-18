@@ -1,4 +1,24 @@
+/* CRITTERS 
+ * EE422C Project 4 submission by
+ * Replace <...> with your actual data.
+ * Alfonso Galindo
+ * ag49477
+ * 16450
+ * Nicole Muzquiz
+ * ngm339
+ * 16460
+ * Slip days used: <0>
+ * Fall 2016
+ */
+
 package assignment4;
+/**
+ * 
+ * @author Nicole
+ * Slightly smarter Critter.
+ * In a timeStep, will reproduce if it has high energy, otherwise will run (if energy> 2*run cost) or walk (if energy> walk cost).
+ * If in a fight, will fight if energy> 100 OR energy<walk cost. If energy<100 AND energy> walk cost, then it will attempt to flee
+ */
 
 public class Critter2 extends Critter {
 
