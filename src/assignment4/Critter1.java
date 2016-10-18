@@ -22,14 +22,15 @@ public class Critter1 extends Critter {
 		// TODO Auto-generated method stub
 		if (getEnergy()> Params.run_energy_cost){
 			run(dir);
+			return false;
 		}
 		else if(getEnergy() > Params.walk_energy_cost){
 			walk(dir);
+			return false;
 		}
 		else{
 			return true;
 		}
-		return false;
 	}
 
 }
