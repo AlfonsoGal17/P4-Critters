@@ -1,16 +1,3 @@
-/* CRITTERS 
- * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * Alfonso Galindo
- * ag49477
- * 16450
- * <Nicole Muzquiz>
- * <ngm339>
- * <16460>
- * Slip days used: <0>
- * Fall 2016
- */
-
 package assignment4;
 
 import java.util.List;
@@ -59,8 +46,6 @@ public abstract class Critter {
 	private int y_coord;
 	//added boolean to check if it has walked/run in a timestep
 	private boolean moved;
-	//added boolean to check if critter tried to flee in fight method
-	protected boolean flee = false;
 	protected final void walk(int direction) {
 		if(this.moved){
 			this.energy -= Params.walk_energy_cost;
@@ -245,24 +230,7 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
-		try{
-		Class<?> critClass = Class.forName(critter_class_name);
-		for(Critter a : population){
-			if(critClass.isInstance(a)){
-				result.add(a);
-			}
-		}
-		}
-		catch(ClassNotFoundException e){
-			throw new InvalidCritterException(critter_class_name);
-		}
-		catch(NoClassDefFoundError e){
-			throw new InvalidCritterException(critter_class_name);
-		}
-		catch(Exception e){
-			throw new InvalidCritterException(critter_class_name);
-		}
-		
+
 		return result;
 	}
 
@@ -386,7 +354,7 @@ public abstract class Critter {
 						int bRoll;
 						
 						//trying to escape
-						if ( a.flee == true){
+						if (!(aFight)){
 							int x = a.x_coord;
 							int y = a.y_coord;
 							for(Critter z: population){
@@ -394,13 +362,13 @@ public abstract class Critter {
 									continue;
 								}
 								else if (x == z.x_coord && y == z.y_coord){
-									a.flee = false;
+									aFight = true;
 									a.x_coord = prevA_XCoord;
 									a.y_coord = prevA_YCoord;
 								}
 							}
 						}
-						if (b.flee == true){
+						if (!(bFight)){
 							int x = b.x_coord;
 							int y = b.y_coord;
 							for(Critter z: population){
@@ -408,7 +376,7 @@ public abstract class Critter {
 									continue;
 								}
 								else if (x == z.x_coord && y == z.y_coord){
-									b.flee = false;
+									bFight = true;
 									b.x_coord = prevB_XCoord;
 									b.y_coord = prevB_YCoord;
 								}
@@ -417,14 +385,14 @@ public abstract class Critter {
 						
 						
 						//both Critters Flee and end up on same spot
-						if ((a.flee && b.flee) && (a.x_coord == b.x_coord) && (a.y_coord == b.y_coord)){
+						if ((!aFight && !bFight) && (a.x_coord == b.x_coord) && (a.y_coord == b.y_coord)){
 							b.x_coord = prevB_XCoord;
 							b.y_coord = prevB_YCoord;
 						}
 						
 						
 						// if = then failed to escape
-						if ((!(a.flee) && !(b.flee))&&(a.x_coord == b.x_coord && a.y_coord == b.y_coord)) {
+						if ((aFight && bFight)&&(a.x_coord == b.x_coord && a.y_coord == b.y_coord)) {
 							// if both critters are still alive
 							if (a.energy > 0 && b.energy > 0) {
 								if (aFight) {
