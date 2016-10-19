@@ -121,7 +121,7 @@ public class Main {
 				} else {
 					try {
 						int stepNum = Integer.parseInt(cmdArr[1]);
-						if(stepNum < 0){
+						if (stepNum < 0) {
 							throw new Exception();
 						}
 						while (stepNum > 0) {
@@ -144,7 +144,9 @@ public class Main {
 
 					try {
 						seedNum = Integer.parseInt(cmdArr[1]);
-						if(seedNum < 0){throw new Exception();}
+						if (seedNum < 0) {
+							throw new Exception();
+						}
 						Critter.setSeed(seedNum);
 					} catch (Exception e) {
 						System.out.println("error processing: " + trimedCmd);
@@ -160,7 +162,7 @@ public class Main {
 				} else if (cmdArr.length == 2) {
 					try {
 						Critter.makeCritter(myPackage + "." + cmdArr[1]);
-						//Critter.makeCritter(cmdArr[1]);
+						// Critter.makeCritter(cmdArr[1]);
 					} catch (InvalidCritterException e) {
 						System.out.println("error processing: " + trimedCmd);
 					}
@@ -169,10 +171,12 @@ public class Main {
 					// String className = cmdArr[1];
 					try {
 						makeNum = Integer.parseInt(cmdArr[2]);
-						if(makeNum < 0){throw new Exception();}
+						if (makeNum < 0) {
+							throw new Exception();
+						}
 						for (int i = 0; i < makeNum; i++) {
 							Critter.makeCritter(myPackage + "." + cmdArr[1]);
-							//Critter.makeCritter(cmdArr[1]);
+							// Critter.makeCritter(cmdArr[1]);
 						}
 					} catch (InvalidCritterException e) {
 						System.out.println("error processing: " + trimedCmd);
@@ -193,18 +197,20 @@ public class Main {
 					// finish writing stats
 					List<Critter> result = new java.util.ArrayList<Critter>();
 					try {
-//						Class<?> myClass = Class.forName(myPackage + "." + cmdArr[1]);
-//						Critter myCritter = (Critter) myClass.newInstance();
-//						result = Critter.getInstances(myPackage + "." + cmdArr[1]);
-//						//Critter.runStats(result);
-//						myCritter.runStats(result);
-						Class<?> myClass = Class.forName(myPackage+ "." + cmdArr[1]);
-						//Critter myCritter = (Critter) myClass.newInstance();
-						result = Critter.getInstances(myPackage+"."+cmdArr[1]);
-						Class<?>[] types = {List.class};
+						// Class<?> myClass = Class.forName(myPackage + "." +
+						// cmdArr[1]);
+						// Critter myCritter = (Critter) myClass.newInstance();
+						// result = Critter.getInstances(myPackage + "." +
+						// cmdArr[1]);
+						// //Critter.runStats(result);
+						// myCritter.runStats(result);
+						Class<?> myClass = Class.forName(myPackage + "." + cmdArr[1]);
+						// Critter myCritter = (Critter) myClass.newInstance();
+						result = Critter.getInstances(myPackage + "." + cmdArr[1]);
+						Class<?>[] types = { List.class };
 						Method m = myClass.getMethod("runStats", types);
 						m.invoke(null, result);
-						
+
 					} catch (InvalidCritterException e) {
 						System.out.println("error processing: " + trimedCmd);
 					} catch (Exception e) {
@@ -218,9 +224,8 @@ public class Main {
 
 			// System.out.println("GLHF");
 		}
-			/* Write your code above */
-			System.out.flush();
+		/* Write your code above */
+		System.out.flush();
 
-		
 	}
 }

@@ -12,6 +12,7 @@
  */
 package assignment4;
 
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -223,10 +224,15 @@ public abstract class Critter {
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
 		try {
+
+			
 			// returns class associated with string name
+			//System.out.println("enter make");
 			Class<?> myClass = Class.forName(critter_class_name);
+			//System.out.println("done with forName");
 			// make new instance of critter_class_name critter
 			Critter newCritter = (Critter) myClass.newInstance();
+			//System.out.println("done with instance");
 			// set parameters for critter
 			newCritter.x_coord = getRandomInt(Params.world_width);
 			newCritter.y_coord = getRandomInt(Params.world_height);
@@ -359,7 +365,8 @@ public abstract class Critter {
 	}
 	
 	/**
-	 * 
+	 * During each WorldTimeStep, the state of all Critters in the world are updated, new critters are added, babies are added, dead critters are 
+	 * removed.
 	 * Flee:
 	 * 	-Critters that choose not to fight and flee instead, go through the flee process within the SECOND part
 	 * 	-Before fight is called, the current Critters position is saved, and is used to reset Critter back to this position if it flees into an occupied space

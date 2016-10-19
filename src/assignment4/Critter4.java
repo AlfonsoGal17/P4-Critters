@@ -12,10 +12,17 @@
  */
 
 package assignment4;
-//This critter always walks in the UP position,
-//if and only if its energy is the same of that
-//required to reproduce, it will reproduce
-//This is a mean critter, it always wants to fight
+/*
+ * @author Alfonso Galindo
+ * 
+ * This critter always walks in the UP positino,
+ * if and only if its energy is the same as that 
+ * needed to reproduce, it will reporduce sacrificing 
+ * itself.
+ * 
+ * This is a mean critter, it always wants to figt
+ */
+
 public class Critter4 extends Critter{
 	@Override
 	public String toString() { return "4"; }
