@@ -192,7 +192,15 @@ public abstract class Critter {
 			this.y_coord += Params.world_height;
 		}
 	}
-
+	
+	/**
+	 * This method takes in a Critter object and direction number. 
+	 * The energy of the Critter calling this class will have their energy cut in half (rounded up) and the remaining half (rounded down) is given to its offspring.
+	 * The offspring then is shifted 1 space away from its parent using the Walk() function.
+	 * Before walk() is called the walk cost energy is added to the offspring so that energy remains half of parents energy when spawned 
+	 * @param offspring
+	 * @param direction
+	 */
 	protected final void reproduce(Critter offspring, int direction) {
 		if (this.energy < Params.min_reproduce_energy) {
 			return;
