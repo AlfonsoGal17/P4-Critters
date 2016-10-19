@@ -121,6 +121,9 @@ public class Main {
 				} else {
 					try {
 						int stepNum = Integer.parseInt(cmdArr[1]);
+						if(stepNum < 0){
+							throw new Exception();
+						}
 						while (stepNum > 0) {
 							Critter.worldTimeStep();
 							stepNum--;
@@ -138,8 +141,10 @@ public class Main {
 					System.out.println("error processing: " + trimedCmd);
 				} else {
 					int seedNum;
+
 					try {
 						seedNum = Integer.parseInt(cmdArr[1]);
+						if(seedNum < 0){throw new Exception();}
 						Critter.setSeed(seedNum);
 					} catch (Exception e) {
 						System.out.println("error processing: " + trimedCmd);
@@ -155,6 +160,7 @@ public class Main {
 				} else if (cmdArr.length == 2) {
 					try {
 						Critter.makeCritter(myPackage + "." + cmdArr[1]);
+						//Critter.makeCritter(cmdArr[1]);
 					} catch (InvalidCritterException e) {
 						System.out.println("error processing: " + trimedCmd);
 					}
@@ -163,8 +169,10 @@ public class Main {
 					// String className = cmdArr[1];
 					try {
 						makeNum = Integer.parseInt(cmdArr[2]);
+						if(makeNum < 0){throw new Exception();}
 						for (int i = 0; i < makeNum; i++) {
 							Critter.makeCritter(myPackage + "." + cmdArr[1]);
+							//Critter.makeCritter(cmdArr[1]);
 						}
 					} catch (InvalidCritterException e) {
 						System.out.println("error processing: " + trimedCmd);
